@@ -25,13 +25,13 @@ function [Phi, alpha, beta, m1] = lanczos_tridiag(R, rho, l_k)
     alpha = zeros(max_iter, 1);  % diagonal
     beta  = zeros(max_iter, 1);  % subdiagonal (beta(j) = beta_j)
     
-    % --- Step 1: Initial vector ---
+    % Step 1: Initial vector 
     % Random unit vector
     q = randn(m, 1);
     q = q / norm(q);
     Phi(:, 1) = q;
     
-    % --- Step 2: Lanczos iteration ---
+    % Step 2: Lanczos iteration
     tr_Gamma = 0;  % accumulate trace of Gamma
     m1 = 0;        % iteration counter
     
@@ -56,7 +56,7 @@ function [Phi, alpha, beta, m1] = lanczos_tridiag(R, rho, l_k)
             r = r - beta(j-1) * Phi(:, j-1);
         end
         
-        % --- Re-orthogonalization (full) ---
+        % Re-orthogonalization (full) 
         % Numerically necessary: loss of orthogonality in floating point
         % Project out all previous Lanczos vectors
         for i = 1:j
@@ -66,7 +66,7 @@ function [Phi, alpha, beta, m1] = lanczos_tridiag(R, rho, l_k)
         % Compute beta_j = ||r||
         beta(j) = norm(r);
         
-        % --- Check stopping criterion ---
+        % Check stopping criterion
         % Update trace of Gamma
         tr_Gamma = tr_Gamma + alpha(j);
         
@@ -85,14 +85,14 @@ function [Phi, alpha, beta, m1] = lanczos_tridiag(R, rho, l_k)
             break
         end
         
-        % --- Next Lanczos vector ---
+        % Next Lanczos vector
         if j < max_iter
             Phi(:, j+1) = r / beta(j);
         end
         
     end
     
-    % --- Trim outputs to actual size m1 ---
+    % Trim outputs to actual size m1
     Phi  = Phi(:, 1:m1);
     alpha = alpha(1:m1);
     beta  = beta(1:m1-1);  % beta has m1-1 elements

@@ -1,16 +1,16 @@
 function lambda_i = bisection_eig(alpha, beta, i, eps)
-% BISECTION_EIG  Trova l'i-esimo autovalore più grande di Gamma
-% tramite bisection + Sturm sequence
+% BISECTION_EIG  Finds the i-th largest eigenvalue of Gamma
+% via bisection + Sturm sequence
 % Following Li et al. (2000), Section 4
 %
 % INPUT:
-%   alpha    - diagonale di Gamma (m1 x 1)
-%   beta     - sottodiagonale di Gamma (m1-1 x 1)
-%   i        - indice autovalore (1 = più grande, 2 = secondo, ...)
-%   eps      - precisione (default 1e-10)
+%   alpha    - diagonal of Gamma (m1 x 1)
+%   beta     - subdiagonal of Gamma (m1-1 x 1)
+%   i        - eigenvalue index (1 = largest, 2 = second largest, ...)
+%   eps      - precision (default 1e-10)
 %
 % OUTPUT:
-%   lambda_i - i-esimo autovalore più grande di Gamma
+%   lambda_i - i-th largest eigenvalue of Gamma
 
     if nargin < 4
         eps = 1e-10;
@@ -18,14 +18,15 @@ function lambda_i = bisection_eig(alpha, beta, i, eps)
 
     m1 = length(alpha);
 
-    % --- Bounds di Gershgorin ---
-    % Ogni autovalore di Gamma sta in [l_min, l_max]
-    % Per una matrice tridiagonale simmetrica:
-    % riga 1:    [alpha(1) - |beta(1)|,          alpha(1) + |beta(1)|]
-    % riga j:    [alpha(j) - |beta(j-1)| - |beta(j)|, alpha(j) + ...]
-    % riga m1:   [alpha(m1) - |beta(m1-1)|,      alpha(m1) + |beta(m1-1)|]
+    %Gershgorin bounds
 
-    % Calcola il raggio di Gershgorin per ogni riga
+    % Every eigenvalue of Gamma lies in [l_min, l_max]
+    % For a symmetric tridiagonal matrix:
+    % row 1:    [alpha(1) - |beta(1)|,          alpha(1) + |beta(1)|]
+    % row j:    [alpha(j) - |beta(j-1)| - |beta(j)|, alpha(j) + ...]
+    % row m1:   [alpha(m1) - |beta(m1-1)|,      alpha(m1) + |beta(m1-1)|]
+
+    %Calculate Gershgorin radius for each row
     gershgorin_radius = zeros(m1, 1);
     gershgorin_radius(1) = abs(beta(1));
     for j = 2:m1-1
@@ -36,13 +37,14 @@ function lambda_i = bisection_eig(alpha, beta, i, eps)
     l_max = max(alpha + gershgorin_radius) + eps;
     l_min = min(alpha - gershgorin_radius) - eps;
 
-    % --- Bisection ---
-    % Vogliamo lambda_i tale che:
-    % s(lambda_i) = m1 - i
-    % cioè: esattamente (m1 - i) autovalori sono strettamente minori di lambda_i
-    % (perché ci sono i-1 autovalori più grandi di lambda_i)
+   %Bisection 
 
-    target = m1 - i;  % numero di autovalori che devono stare sotto lambda_i
+    % We want lambda_i such that:
+    % s(lambda_i) = m1 - i
+    % i.e.: exactly (m1 - i) eigenvalues are strictly less than lambda_i
+    % (because there are i-1 eigenvalues larger than lambda_i)
+
+    target = m1 - i;  % number of eigenvalues that must be below lambda_i
 
     a = l_min;
     b = l_max;
@@ -56,14 +58,14 @@ function lambda_i = bisection_eig(alpha, beta, i, eps)
         s_mid = sturm_count(alpha, beta, l_mid);
 
         if s_mid <= target
-            % lambda_i è a destra di l_mid (o è l_mid stesso)
+            % lambda_i is to the right of l_mid (or is l_mid itself)
             a = l_mid;
         else
-            % lambda_i è a sinistra di l_mid
+            % lambda_i is to the left of l_mid
             b = l_mid;
         end
 
-        % Criterio di convergenza
+        % Convergence criterion
         if (b - a) < eps
             break
         end
