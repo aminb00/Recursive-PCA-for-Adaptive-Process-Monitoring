@@ -61,8 +61,8 @@ RPCA.mlx              →  requires monitoring_data.mat
 
 | Phase | Samples | Description |
 |---|---|---|
-| Training | N = 10,000 | Stationary healthy — used to fit initial model |
-| Monitoring | N₂ = 1,000 | Time-varying — 3 drifts + 3 fault types |
+| Training | N = 10,000 | Stationary healthy — used to fit PCA batch model |
+| Monitoring | N₂ = 1,000 | Time-varying — 3 drifts + 3 fault types for PCA and RPCA |
 
 **3 simultaneous drifts** (always active):
 
