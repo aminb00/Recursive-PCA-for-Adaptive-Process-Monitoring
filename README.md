@@ -11,13 +11,14 @@ Journal of Process Control, Vol. 10, pp. 471–486
 
 ## Repository Structure
 
+```
 ├── DataPreparation.mlx         # Dataset generation and visualization
 ├── PCA_batch.mlx               # Batch PCA — fixed model monitoring
 ├── RPCA.mlx                    # RPCA — sample-wise and block-wise Lanczos
-├──── lanczos_tridiag.m           # Lanczos tridiagonalization
-├──── bisection_eig.m             # Eigenvalue computation via bisection + Sturm
-├──── sturm_count.m               # Sturm sequence eigenvalue counter
-├──── inverse_iteration.m         # Eigenvector recovery via inverse iteration
+├──── lanczos_tridiag.m         # Lanczos tridiagonalization
+├──── bisection_eig.m           # Eigenvalue computation via bisection + Sturm
+├──── sturm_count.m             # Sturm sequence eigenvalue counter
+├──── inverse_iteration.m       # Eigenvector recovery via inverse iteration
 ├── plots/                      # All exported figures (PNG)
 └── LIVESCRIPTS-HTML&PDF/
     ├── DataPreparation.html
@@ -26,12 +27,14 @@ Journal of Process Control, Vol. 10, pp. 471–486
     ├── PCA_batch.pdf
     ├── RPCA.html
     └── RPCA.pdf
+```
 
 ---
 
 ## How to View Results
 
 ### Option A — HTML (recommended)
+
 Download and open in any browser — all plots rendered inline:
 
 1. Go to `LIVESCRIPTS-HTML&PDF/`
@@ -39,15 +42,18 @@ Download and open in any browser — all plots rendered inline:
 3. Open in browser
 
 ### Option B — PDF
+
 Static version of all results — download from `LIVESCRIPTS-HTML&PDF/`
 
 ### Option C — Run in MATLAB (R2022b or later)
+
 Run scripts in order — all `.m` files must be in the same folder:
 
-  DataPreparation.mlx   →  generates monitoring_data.mat
-  PCA_batch.mlx         →  requires monitoring_data.mat
-  RPCA.mlx              →  requires monitoring_data.mat
-
+```
+DataPreparation.mlx   →  generates monitoring_data.mat
+PCA_batch.mlx         →  requires monitoring_data.mat
+RPCA.mlx              →  requires monitoring_data.mat
+```
 
 ---
 
@@ -55,34 +61,35 @@ Run scripts in order — all `.m` files must be in the same folder:
 
 | Phase | Samples | Description |
 |---|---|---|
-| Training | $N = 10\,000$ | Stationary healthy — used to fit initial model |
-| Monitoring | $N_2 = 1\,000$ | Time-varying — 3 drifts + 3 fault types |
+| Training | N = 10,000 | Stationary healthy — used to fit initial model |
+| Monitoring | N₂ = 1,000 | Time-varying — 3 drifts + 3 fault types |
 
 **3 simultaneous drifts** (always active):
-- Mean of $t_1$ increases linearly
-- Correlation structure: $A_{11}(k) = A_{11}(0) + 0.0002k$
-- Sensor aging: $x_2(k) = x_2(k) + 0.002k$
+
+- Mean of t₁ increases linearly
+- Correlation structure: A₁₁(k) = A₁₁(0) + 0.0002k
+- Sensor aging: x₂(k) = x₂(k) + 0.002k
 
 **3 injected fault types:**
 
 | Fault | Samples | Sensor | Type | Magnitude |
 |---|---|---|---|---|
-| Impulsive | 500–520 | $x_5$ | Additive spike | $+5\sigma_{x_5}$ |
-| Incipient | 600–700 | $x_4$ | Sinusoidal growth | $+5\sin(\pi(k-600)/100)$ |
-| Step | 800–1000 | $x_1$ | Permanent bias | $+5\sigma_{x_1}$ |
+| Impulsive | 500–520 | x₅ | Additive spike | +5σ(x₅) |
+| Incipient | 600–700 | x₄ | Sinusoidal growth | +5sin(π(k-600)/100) |
+| Step | 800–1000 | x₁ | Permanent bias | +5σ(x₁) |
 
 ---
 
 ## Methods
 
-| Method | Update | Eigenstructure | $q$ selection |
+| Method | Update | Eigenstructure | q selection |
 |---|---|---|---|
-| Batch PCA | never | SVD once | fixed $q=3$ |
+| Batch PCA | never | SVD once | fixed q=3 |
 | RPCA Sample-wise | every sample | Lanczos + Bisection + Inverse iteration | VRE adaptive |
-| RPCA Block-wise | every $B=10$ samples | Lanczos + Bisection + Inverse iteration | VRE adaptive |
+| RPCA Block-wise | every B=10 samples | Lanczos + Bisection + Inverse iteration | VRE adaptive |
 
-**Forgetting factors tested:** $\lambda \in \{0.980,\, 0.995,\, 0.999\}$  
-**Effective memory:** $W_{\text{eff}} = 1/(1-\lambda) \in \{50,\, 200,\, 1000\}$
+**Forgetting factors tested:** λ ∈ {0.980, 0.995, 0.999}  
+**Effective memory:** W_eff = 1/(1-λ) ∈ {50, 200, 1000}
 
 ---
 
@@ -91,7 +98,7 @@ Run scripts in order — all `.m` files must be in the same folder:
 - **FAR** — False Alarm Rate on healthy drift samples
 - **DR** — Detection Rate on fault samples
 - **Precision, Recall, F1** — per fault type
-- **Confusion matrices** — SPE-based, $\lambda = 0.995$
+- **Confusion matrices** — SPE-based, λ = 0.995
 
 ---
 
