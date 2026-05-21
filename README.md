@@ -12,13 +12,15 @@ Journal of Process Control, Vol. 10, pp. 471–486
 ## Repository Structure
 
 ```
-├── DataPreparation.mlx              # Dataset generation and visualization
-├── PCA_batch.mlx                    # Batch PCA — fixed model monitoring
-├── RPCA.mlx                         # RPCA — sample-wise and block-wise
-│   ├── lanczos_tridiag.m            # Lanczos tridiagonalization
-│   ├── bisection_eig.m              # Eigenvalue computation via bisection + Sturm
-│   ├── sturm_count.m                # Sturm sequence eigenvalue counter
-│   └── inverse_iteration.m          # Eigenvector recovery via inverse iteration
+code
+├
+    ├── DataPreparation.mlx              # Dataset generation and visualization
+    ├── PCA_batch.mlx                    # Batch PCA — fixed model monitoring
+    ├── RPCA.mlx                         # RPCA — sample-wise and block-wise
+    │   ├── lanczos_tridiag.m            # Lanczos tridiagonalization
+    │   ├── bisection_eig.m              # Eigenvalue computation via bisection + Sturm
+    │   ├── sturm_count.m                # Sturm sequence eigenvalue counter
+    │   └── inverse_iteration.m          # Eigenvector recovery via inverse iteration
 ├── plots/  # All exported figures (PNG)
 └── LIVESCRIPTS-HTML&PDF/
     ├── DataPreparation.html / .pdf
