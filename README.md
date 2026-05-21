@@ -1,6 +1,8 @@
-# Recursive PCA for Adaptive Process Monitoring
+# Adaptive Fault Detection under Process Drift using Recursive PCA
 
-Implementation of **Li et al. (2000)** — *Recursive PCA for Adaptive Process Monitoring*  
+Implementation and evaluation of Recursive PCA (RPCA) for adaptive monitoring of nonstationary processes with drift and sensor faults.
+
+Based on **Li et al. (2000)** — *Recursive PCA for Adaptive Process Monitoring*  
 Journal of Process Control, Vol. 10, pp. 471–486
 
 **Course:** Adaptive Learning, Estimation and Supervision of Dynamical Systems  
